@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователь</title>
+    <style>
+        input {
+            margin: 10px 0;
+        }
+        .input-age {
+            margin-left: 38px;
+        }
+        .btn {
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 3px;
+            background-color: forestgreen;
+            color: white;
+        }
+        .input-action {
+            background-color: aquamarine;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Пользователь</h1>
+
+<form th:method="POST" th:action="@{/user_info}" th:object="${user}" >
+
+    <input type="hidden" th:field="*{id}">
+
+    <label for="username">Введите username: </label>
+    <input type="text" th:field="*{username}" id="username">
+    <br/>
+
+    <label for="lastName">Введите lastName: </label>
+    <input type="text" th:field="*{lastName}" id="lastName">
+    <br/>
+
+    <label for="age">Введите age: </label>
+    <input class="input-age" type="number" th:field="*{age}" id="age">
+    <br/>
+
+    <label for="age">Введите password: </label>
+    <input type="text" th:field="*{password}" id="password">
+    <br/>
+
+    <label>Roles:</label>
+    <div th:each="role: ${listRoles}">
+        <input type="checkbox" th:field="*{roles}" th:id="role" th:value="${role.id}"
+               class="form-check-input" />
+        <label th:for="role" th:text="${role.name}"></label>
+    </div>
+
+    <input class="btn" type="submit" value="OK">
+
+</form>
+<br>
+
+<form th:action="@{/admin}" th:method="GET" >
+    <button class="btn input-action" type="submit">Пользователи</button>
+</form>
+
+</body>
+</html>

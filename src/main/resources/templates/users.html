@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring MVC + Hibernate</title>
+    <style>
+        td,
+        .table-header,
+        table {
+            border: 1px solid black;
+            font-size: 18px;
+            text-align: center;
+        }
+        .table-header {
+            padding: 5px 0
+        }
+        .btn {
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 3px;
+            background-color: red;
+            color: white;
+        }
+        .btn-new-user {
+            background-color: forestgreen;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div style="display: flex; align-items: center; justify-content: space-between">
+    <h1>Пользователи</h1>
+    <a href="/logout">
+        <button class="btn" style="background-color: red; color: white; ">
+            Выйти
+        </button>
+    </a>
+</div>
+<a th:href="@{admin/user_info}">
+    <button class="btn btn-new-user">Добавить пользователя</button>
+</a>
+<br>
+<br>
+
+<div class="users">
+    <table style="width: 100%; border-collapse: collapse">
+        <tr style="background: dodgerblue">
+            <th class="table-header">Username</th>
+            <th class="table-header">Lastname</th>
+            <th class="table-header">Age</th>
+            <th class="table-header">Password</th>
+            <th class="table-header">Roles</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td><a th:href="@{/admin/{username}(username=${user.username})}" th:text="${user.username}"></a></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.password}"></td>
+            <td th:text="${user.roles}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

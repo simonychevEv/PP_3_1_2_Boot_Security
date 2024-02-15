@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring MVC + Hibernate</title>
+    <style>
+        td,
+        .table-header,
+        table {
+            border: 1px solid black;
+            font-size: 18px;
+            text-align: center;
+        }
+        .table-header {
+            padding: 5px 0
+        }
+        .btn {
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 3px;
+            background-color: red;
+            color: white;
+        }
+        .btn-action {
+            display: inline-block;
+        }
+        .input-action {
+            background-color: aquamarine;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<div style="display: flex; align-items: center; justify-content: space-between">
+    <h1>Пользователь: <span th:text="${user.username}"></span></h1>
+    <a href="/logout">
+        <button style="cursor: pointer; padding: 5px 20px; font-size: 20px; background-color: red; color: white; border-radius: 3px">Выйти</button>
+    </a>
+</div>
+
+<br>
+
+<div class="users">
+    <table style="width: 100%; border-collapse: collapse">
+        <tr style="background: dodgerblue">
+            <th class="table-header">Username</th>
+            <th class="table-header">Lastname</th>
+            <th class="table-header">Age</th>
+            <th class="table-header">Password</th>
+            <th sec:authorize="hasRole('ROLE_ADMIN')" class="table-header">Operations</th>
+        </tr>
+        <tr>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.password}"></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                <form class="btn-action" th:action="@{/admin/update_user}" th:method="GET">
+                    <input type="hidden" th:name="userId" th:value="${user.id}"/>
+                    <input class="btn input-action" type="submit" value="Изменить">
+                </form>
+                <form class="btn-action" th:action="@{/admin/delete_user}" th:method="DELETE">
+                    <input type="hidden" th:name="userId" th:value="${user.id}"/>
+                    <input class="btn" type="submit" value="Удалить">
+                </form>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <form sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{/admin}" th:method="GET" >
+        <button class="btn input-action" type="submit">Пользователи</button>
+    </form>
+</div>
+
+</body>
+</html>
